@@ -44,10 +44,13 @@ void ServerStuff::readClient()
 
         m_nNextBlockSize = 0;
 
-        if (sendToClient(clientSocket, QString("Reply: received [%1]").arg(str)) == -1)
-        {
-            qDebug() << "Some error occured";
+        for (QTcpSocket *c :clients) {
+            if (sendToClient(c, QString(c->peerName() + ": [%1]").arg(str)) == -1)
+            {
+                qDebug() << "Some error occured";
+            }
         }
+
     }
 }
 
